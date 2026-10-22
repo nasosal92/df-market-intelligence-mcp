@@ -1,0 +1,347 @@
+[
+  {
+    "key": "insider-latest",
+    "path": "/api/v1/insider/latest",
+    "price": "$0.01",
+    "title": "Latest insider trades",
+    "description": "Most recent SEC Form 4 insider transactions (US stocks), parsed to clean JSON within minutes of filing. Filter by type (P=open-market buy, S=sale) and minimum dollar value.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Form 4 transaction code: P (buy), S (sale), A (grant), M (option exercise)…"
+        },
+        "min_value": {
+          "type": "integer",
+          "description": "Minimum transaction value in USD"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "1-100, default 50"
+        }
+      },
+      "required": []
+    },
+    "exampleInput": {
+      "type": "P",
+      "min_value": 100000,
+      "limit": 50
+    }
+  },
+  {
+    "key": "insider-ticker",
+    "path": "/api/v1/insider/ticker",
+    "price": "$0.02",
+    "title": "Insider activity for a stock",
+    "description": "All insider buys and sells for one ticker over a window, with a summary: buy vs sell dollar value, distinct buyers/sellers and a net_buying / net_selling signal.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Stock ticker"
+        },
+        "days": {
+          "type": "integer",
+          "description": "Look-back window, 1-730, default 180"
+        }
+      },
+      "required": [
+        "symbol"
+      ]
+    },
+    "exampleInput": {
+      "symbol": "AAPL",
+      "days": 180
+    }
+  },
+  {
+    "key": "insider-clusters",
+    "path": "/api/v1/insider/clusters",
+    "price": "$0.05",
+    "title": "Insider cluster buying",
+    "description": "Stocks where several different insiders bought shares on the open market in the same window — one of the strongest public insider signals. Ranked by number of insiders and dollar value.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "days": {
+          "type": "integer",
+          "description": "Window in days, 1-90, default 14"
+        },
+        "min_insiders": {
+          "type": "integer",
+          "description": "Minimum distinct buyers, 2-10, default 2"
+        }
+      },
+      "required": []
+    },
+    "exampleInput": {
+      "days": 14,
+      "min_insiders": 2
+    }
+  },
+  {
+    "key": "predictions-top",
+    "path": "/api/v1/predictions/top",
+    "price": "$0.005",
+    "title": "Top prediction markets",
+    "description": "Highest-volume live prediction markets across Polymarket and Kalshi with implied probabilities, 24h change, volume and close time. Refreshed every 15 minutes.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "Optional: polymarket or kalshi",
+          "enum": [
+            "polymarket",
+            "kalshi"
+          ]
+        },
+        "limit": {
+          "type": "integer",
+          "description": "1-100, default 25"
+        }
+      },
+      "required": []
+    },
+    "exampleInput": {
+      "limit": 25
+    }
+  },
+  {
+    "key": "predictions-search",
+    "path": "/api/v1/predictions/search",
+    "price": "$0.01",
+    "title": "Search prediction markets",
+    "description": "Find the market-implied probability of any event (elections, Fed decisions, sports, crypto, geopolitics) across Polymarket and Kalshi by keyword.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "q": {
+          "type": "string",
+          "description": "Keywords, e.g. 'fed december' or 'bitcoin 150k'"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "1-100, default 25"
+        }
+      },
+      "required": [
+        "q"
+      ]
+    },
+    "exampleInput": {
+      "q": "fed rate",
+      "limit": 25
+    }
+  },
+  {
+    "key": "predictions-movers",
+    "path": "/api/v1/predictions/movers",
+    "price": "$0.01",
+    "title": "Prediction market movers",
+    "description": "Markets whose implied probability moved the most in the last 24h — what the crowd suddenly changed its mind about. Filtered by minimum volume.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "min_volume": {
+          "type": "integer",
+          "description": "Minimum 24h volume in USD, default 10000"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "1-100, default 25"
+        }
+      },
+      "required": []
+    },
+    "exampleInput": {
+      "min_volume": 10000,
+      "limit": 25
+    }
+  },
+  {
+    "key": "macro-latest",
+    "path": "/api/v1/macro/latest",
+    "price": "$0.01",
+    "title": "US macro dashboard",
+    "description": "Latest value, change and year-over-year % for 24 key US indicators: CPI, core CPI, PCE, payrolls, unemployment, jobless claims, Fed funds, 2y/10y/30y yields, curve, mortgages, GDP, M2, Fed balance sheet, dollar index.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "exampleInput": {}
+  },
+  {
+    "key": "macro-series",
+    "path": "/api/v1/macro/series",
+    "price": "$0.005",
+    "title": "Macro time series",
+    "description": "History (up to ~260 observations) plus summary stats for one US macro series by FRED id.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "FRED series id, e.g. CPIAUCSL, UNRATE, DGS10"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "exampleInput": {
+      "id": "CPIAUCSL"
+    }
+  },
+  {
+    "key": "macro-calendar",
+    "path": "/api/v1/macro/calendar",
+    "price": "$0.005",
+    "title": "Economic release calendar",
+    "description": "Upcoming US economic data releases (CPI, jobs report, GDP, etc.) for the next N days.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "days": {
+          "type": "integer",
+          "description": "1-45, default 14"
+        }
+      },
+      "required": []
+    },
+    "exampleInput": {
+      "days": 14
+    }
+  },
+  {
+    "key": "x402-overview",
+    "path": "/api/v1/x402/overview",
+    "price": "$0.01",
+    "title": "x402 agent-economy overview",
+    "description": "State of the x402 agent economy from the full Bazaar catalogue: services, endpoints, 30-day paid calls, estimated USDC volume, demand by category, network mix, top services, and how much volume comes from a handful of wallets (concentrated / likely self-traffic). Refreshed every cycle.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "exampleInput": {}
+  },
+  {
+    "key": "x402-services",
+    "path": "/api/v1/x402/services",
+    "price": "$0.01",
+    "title": "x402 service rankings",
+    "description": "Ranked x402 services (by 30-day calls, unique payers or estimated revenue) with endpoint count, median price, networks and a concentration flag that filters out services whose volume comes from fewer than 5 wallets. Filter by category.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "sort": {
+          "type": "string",
+          "description": "calls (default), payers or revenue",
+          "enum": [
+            "calls",
+            "payers",
+            "revenue"
+          ]
+        },
+        "category": {
+          "type": "string",
+          "description": "ai_inference, trading_defi, onchain_data, market_data, search_scrape, social, media, infra, travel, other"
+        },
+        "include_concentrated": {
+          "type": "string",
+          "description": "true to include services with volume from <5 wallets",
+          "enum": [
+            "true",
+            "false"
+          ]
+        },
+        "limit": {
+          "type": "integer",
+          "description": "1-200, default 50"
+        }
+      },
+      "required": []
+    },
+    "exampleInput": {
+      "limit": 50
+    }
+  },
+  {
+    "key": "x402-search",
+    "path": "/api/v1/x402/search",
+    "price": "$0.005",
+    "title": "Find a paid API for a task",
+    "description": "Agents: describe what you need ('weather forecast', 'token price', 'transcribe audio') and get matching x402 endpoints ranked by real usage, with price, method, network and recent activity. Decoy/honeypot endpoints (≥$1000) are excluded.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "q": {
+          "type": "string",
+          "description": "What you need, 2-80 chars"
+        },
+        "max_price": {
+          "type": "string",
+          "description": "Maximum price per call in USD, e.g. 0.01"
+        },
+        "category": {
+          "type": "string",
+          "description": "Optional category filter (see /api/v1/x402/overview)"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "1-100, default 20"
+        }
+      },
+      "required": [
+        "q"
+      ]
+    },
+    "exampleInput": {
+      "q": "weather forecast",
+      "max_price": "0.05",
+      "limit": 20
+    }
+  },
+  {
+    "key": "x402-trending",
+    "path": "/api/v1/x402/trending",
+    "price": "$0.02",
+    "title": "Trending x402 services",
+    "description": "Which x402 services gained or lost the most paid calls versus N days ago, plus new entrants — built from our daily snapshots of the whole catalogue.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "days": {
+          "type": "integer",
+          "description": "Compare with N days ago, 1-90, default 7"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "1-100, default 20"
+        }
+      },
+      "required": []
+    },
+    "exampleInput": {
+      "days": 7,
+      "limit": 20
+    }
+  },
+  {
+    "key": "x402-pricing",
+    "path": "/api/v1/x402/pricing",
+    "price": "$0.01",
+    "title": "x402 price benchmarks",
+    "description": "What paid agent APIs cost, per category: 25th/50th/75th percentile price, free share, and the median price of endpoints that actually get paid calls. For sellers setting prices and buyers checking value.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "exampleInput": {}
+  }
+]

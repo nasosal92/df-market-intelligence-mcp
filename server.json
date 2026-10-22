@@ -1,0 +1,54 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.nasosal92/df-market-intelligence-mcp",
+  "title": "DF Market Intelligence",
+  "description": "Insider trades, prediction-market odds, US macro and x402 data. Pays per call in USDC on Base.",
+  "repository": {
+    "url": "https://github.com/nasosal92/df-market-intelligence-mcp",
+    "source": "github"
+  },
+  "websiteUrl": "https://df-data-agent.vercel.app",
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "df-market-intelligence-mcp",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "DF_WALLET_PRIVATE_KEY",
+          "description": "Private key of a dedicated wallet holding a little USDC on Base (pays per call via x402). Or use DF_WALLET_MNEMONIC.",
+          "isRequired": false,
+          "isSecret": true,
+          "format": "string"
+        },
+        {
+          "name": "DF_WALLET_MNEMONIC",
+          "description": "Alternative to DF_WALLET_PRIVATE_KEY: the wallet's 12/24-word recovery phrase.",
+          "isRequired": false,
+          "isSecret": true,
+          "format": "string"
+        },
+        {
+          "name": "DF_SESSION_BUDGET",
+          "description": "Maximum USD to spend per session (default 1.00).",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string",
+          "default": "1.00"
+        },
+        {
+          "name": "DF_MAX_PRICE_PER_CALL",
+          "description": "Refuse any single call priced above this many USD (default 0.10).",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string",
+          "default": "0.10"
+        }
+      ]
+    }
+  ]
+}

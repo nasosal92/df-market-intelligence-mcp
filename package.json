@@ -1,0 +1,59 @@
+{
+  "name": "df-market-intelligence-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for DF Market Intelligence: SEC insider trades, Polymarket/Kalshi prediction-market odds, US macro data and x402 agent-economy analytics. Pays per call in USDC on Base via x402.",
+  "type": "module",
+  "bin": {
+    "df-market-intelligence-mcp": "dist/index.js"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "mcpName": "io.github.nasosal92/df-market-intelligence-mcp",
+  "scripts": {
+    "build": "tsc && node scripts/postbuild.mjs",
+    "prepublishOnly": "npm run build",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "x402",
+    "insider-trading",
+    "sec",
+    "prediction-markets",
+    "polymarket",
+    "kalshi",
+    "macro",
+    "fred",
+    "agents",
+    "usdc",
+    "base"
+  ],
+  "author": "DF Capital",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "@x402/evm": "^2.28.0",
+    "@x402/fetch": "^2.28.0",
+    "viem": "^2.57.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nasosal92/df-market-intelligence-mcp.git"
+  },
+  "homepage": "https://df-data-agent.vercel.app",
+  "bugs": {
+    "url": "https://github.com/nasosal92/df-market-intelligence-mcp/issues"
+  }
+}
